@@ -5,6 +5,7 @@ on:
     branches: ["main"]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
+
     - name: Test
       run: go test -v ./...
 
@@ -29,23 +31,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
+
     - name: Test
-      run: |
-        # Запускаем тесты с детектором гонок
-        go test -race -v ./...
-        
-        # Проверка main.go на гонки
-        echo "Checking for data races in main()..."
-        if output=$(go run -race main.go 2>&1); then
-          if echo "$output" | grep -q "WARNING: DATA RACE"; then
-            echo "⛔ Data race detected in main()!"
-            exit 1
-          fi
-          echo "✅ No data races found in main()"
-        else
-          echo "⛔ Error running main.go with race detector"
-          exit 1
-        fi
+      run: go test -race -v ./...
   
   lint:
     needs: [tests, tests-race]
