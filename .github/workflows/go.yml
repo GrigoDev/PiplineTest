@@ -5,7 +5,6 @@ on:
     branches: ["main"]
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +20,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
-
     - name: Test
       run: go test -v ./...
 
@@ -31,11 +29,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-go@v4
-
     - name: Test
       run: |
         # Запускаем тесты с детектором гонок
-        go test -race -v ./.
+        go test -race -v ./...
         
         # Проверка main.go на гонки
         echo "Checking for data races in main()..."
